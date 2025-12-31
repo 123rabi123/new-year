@@ -1,45 +1,105 @@
 body {
   margin: 0;
   height: 100vh;
-  background: linear-gradient(120deg, #ff4d6d, #ffb3c6);
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: Arial, sans-serif;
+  overflow: hidden;
+  transition: 0.5s;
 }
 
+/* 🌙 DARK / ☀️ LIGHT */
+body.light {
+  background: linear-gradient(120deg,#ff4d6d,#ffb3c6);
+}
+body.dark {
+  background: radial-gradient(circle,#000,#111);
+}
+
+/* MAIN BOX */
 .box {
-  background: white;
+  background: rgba(255,255,255,0.15);
   padding: 30px;
   border-radius: 20px;
   text-align: center;
+  backdrop-filter: blur(10px);
+  color: white;
   width: 90%;
-  max-width: 350px;
+  max-width: 360px;
 }
 
-h1 {
-  color: #ff0066;
+/* ✨ GLOW TEXT */
+.glow {
+  text-shadow: 0 0 10px #ff4d6d,0 0 20px #ff99aa;
 }
 
-.buttons {
-  margin-top: 20px;
-}
-
+/* BUTTONS */
 button {
   padding: 12px 20px;
   margin: 10px;
   border: none;
   border-radius: 25px;
-  font-size: 16px;
   cursor: pointer;
+  font-size: 16px;
 }
-
 button:first-child {
   background: #ff0066;
   color: white;
 }
-
 #noBtn {
   position: relative;
-  background: #ccc;
+}
+
+/* 🌙 TOGGLE */
+.toggle {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+}
+
+/* 🐱 CATS */
+.cat {
+  position: fixed;
+  font-size: 40px;
+}
+.cat.left { left: 10px; bottom: 10px; }
+.cat.right { right: 10px; bottom: 10px; }
+
+/* 💓 FLOATING HEARTS */
+.hearts::before {
+  content: "💓 💖 💕 💗 💘";
+  position: fixed;
+  top: 100%;
+  left: 50%;
+  animation: float 8s infinite linear;
+}
+@keyframes float {
+  from { top: 100%; }
+  to { top: -20%; }
+}
+
+/* 🎆 FIREWORK */
+.firework {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  box-shadow: 0 0 #ff0,0 0 #f0f,0 0 #0ff;
+  animation: blast 1.5s forwards;
+}
+@keyframes blast {
+  from { transform: scale(0); opacity:1; }
+  to { transform: scale(25); opacity:0; }
+}
+
+/* 💋 KISS HEART */
+.kiss {
+  position: fixed;
+  font-size: 30px;
+  animation: kiss 2s forwards;
+}
+@keyframes kiss {
+  from { bottom: 0; opacity:1; }
+  to { bottom: 80%; opacity:0; }
 }
