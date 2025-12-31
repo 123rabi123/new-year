@@ -1,34 +1,177 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Ultimate Love Quiz ❤️</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>For You ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+
+body{
+  height:100vh;
+  background:radial-gradient(circle at top,#ff4d6d,#0b0014);
+  overflow:hidden;
+  color:#fff;
+}
+
+/* Floating hearts */
+.heart{
+  position:absolute;
+  bottom:-20px;
+  font-size:20px;
+  animation:float 8s linear infinite;
+  opacity:.7;
+}
+@keyframes float{
+  0%{transform:translateY(0) scale(1);opacity:1}
+  100%{transform:translateY(-120vh) scale(1.8);opacity:0}
+}
+
+/* Center box */
+.card{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  text-align:center;
+  padding:30px;
+  background:rgba(0,0,0,.35);
+  border-radius:20px;
+  backdrop-filter:blur(10px);
+  box-shadow:0 0 40px rgba(255,77,109,.5);
+}
+
+.card h1{
+  font-size:2.2rem;
+  margin-bottom:10px;
+  animation:glow 2s infinite alternate;
+}
+
+@keyframes glow{
+  from{text-shadow:0 0 10px #ff4d6d}
+  to{text-shadow:0 0 30px #ff99ac}
+}
+
+#text{
+  font-size:1.1rem;
+  min-height:80px;
+  margin:15px 0;
+}
+
+/* Buttons */
+.btns button{
+  padding:12px 22px;
+  margin:8px;
+  border:none;
+  border-radius:30px;
+  font-size:16px;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.yes{background:#ff4d6d;color:#fff}
+.no{background:#444;color:#fff}
+
+.yes:hover{transform:scale(1.1)}
+.no:hover{transform:translateX(20px)}
+
+/* Fireworks */
+.firework{
+  position:absolute;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  animation:boom 1s ease-out forwards;
+}
+@keyframes boom{
+  from{transform:scale(0)}
+  to{transform:scale(25);opacity:0}
+}
+</style>
 </head>
-<body class="light">
 
-  <!-- 🌙 TOGGLE -->
-  <button class="toggle" onclick="toggleMode()">🌙 / ☀️</button>
+<body>
 
-  <!-- 🐱 CAT STICKERS -->
-  <div class="cat left">🐱</div>
-  <div class="cat right">🐱</div>
+<audio id="music" src="aud.mp3"></audio>
 
-  <!-- 💓 FLOATING HEARTS -->
-  <div class="hearts"></div>
+<div class="card">
+  <h1>Hey You 💕</h1>
+  <div id="text"></div>
 
-  <div class="box">
-    <h1 id="title" class="glow">😜 Love Quiz</h1>
-    <p id="question" class="glow">Do you love me? ❤️</p>
-
-    <div class="buttons">
-      <button onclick="yesLove()">YES 😍</button>
-      <button id="noBtn">NO 🙈</button>
-    </div>
-
-    <p id="result" class="glow"></p>
+  <div class="btns">
+    <button class="yes" onclick="yesClick()">YES 😍</button>
+    <button class="no" onclick="noClick()">NO 🙈</button>
   </div>
+</div>
 
-  <script src="script.js"></script>
+<script>
+/* Love lines */
+const lines=[
+  "Happy New Year my favorite person 🎆",
+  "Tumhari smile meri weakness hai ❤️",
+  "Tum ho to duniya perfect lagti hai ✨",
+  "Dil serious hai… feelings real hain 😌",
+  "Aur sawaal simple hai…",
+  "Kya tum meri banogi? 💍❤️"
+];
+
+let i=0;
+const textBox=document.getElementById("text");
+const music=document.getElementById("music");
+
+/* Typewriter */
+function typeLine(){
+  if(i<lines.length){
+    let j=0;
+    textBox.innerHTML="";
+    let interval=setInterval(()=>{
+      textBox.innerHTML+=lines[i][j];
+      j++;
+      if(j>=lines[i].length){
+        clearInterval(interval);
+        i++;
+        setTimeout(typeLine,1200);
+      }
+    },50);
+  }
+}
+typeLine();
+
+/* Hearts background */
+setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart";
+  h.style.left=Math.random()*100+"vw";
+  h.innerHTML="💖";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),8000);
+},300);
+
+/* Button actions */
+function yesClick(){
+  music.play();
+  fireworks();
+  textBox.innerHTML="Yayyy! You made my heart smile 💋💞";
+}
+
+function noClick(){
+  textBox.innerHTML="Arey soch lo na 😜❤️";
+}
+
+/* Fireworks */
+function fireworks(){
+  for(let i=0;i<15;i++){
+    const f=document.createElement("div");
+    f.className="firework";
+    f.style.left=50+Math.random()*20-10+"vw";
+    f.style.top=40+Math.random()*20-10+"vh";
+    f.style.background=`hsl(${Math.random()*360},100%,60%)`;
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),1000);
+  }
+}
+</script>
+
 </body>
 </html>
