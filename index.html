@@ -2,21 +2,31 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Love Quiz 😜</title>
+  <title>Ultimate Love Quiz ❤️</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="light">
+
+  <!-- 🌙 TOGGLE -->
+  <button class="toggle" onclick="toggleMode()">🌙 / ☀️</button>
+
+  <!-- 🐱 CAT STICKERS -->
+  <div class="cat left">🐱</div>
+  <div class="cat right">🐱</div>
+
+  <!-- 💓 FLOATING HEARTS -->
+  <div class="hearts"></div>
 
   <div class="box">
-    <h1>😜 Ek Important Question</h1>
-    <p>Do you love me? ❤️</p>
+    <h1 id="title" class="glow">😜 Love Quiz</h1>
+    <p id="question" class="glow">Do you love me? ❤️</p>
 
     <div class="buttons">
       <button onclick="yesLove()">YES 😍</button>
       <button id="noBtn">NO 🙈</button>
     </div>
 
-    <p id="result"></p>
+    <p id="result" class="glow"></p>
   </div>
 
   <script src="script.js"></script>
