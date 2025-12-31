@@ -1,83 +1,106 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>For You ❤️</title>
+<title>Just For You ❤️</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
 
+/* THEMES */
 body{
   height:100vh;
-  background:radial-gradient(circle at top,#ff4d6d,#0b0014);
-  overflow:hidden;
+  background:#0b0014;
   color:#fff;
+  overflow:hidden;
+  transition:.5s;
+}
+body.light{
+  background:#ffe6ec;
+  color:#000;
 }
 
-/* Floating hearts */
+/* TOGGLE */
+.toggle{
+  position:fixed;
+  top:15px;
+  right:15px;
+  font-size:22px;
+  cursor:pointer;
+  z-index:10;
+}
+
+/* HEARTS */
 .heart{
   position:absolute;
   bottom:-20px;
-  font-size:20px;
-  animation:float 8s linear infinite;
-  opacity:.7;
+  font-size:18px;
+  animation:float 7s linear infinite;
 }
 @keyframes float{
-  0%{transform:translateY(0) scale(1);opacity:1}
-  100%{transform:translateY(-120vh) scale(1.8);opacity:0}
+  to{transform:translateY(-120vh) scale(2);opacity:0}
 }
 
-/* Center box */
+/* CARD */
 .card{
   position:absolute;
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
+  background:rgba(0,0,0,.4);
+  backdrop-filter:blur(12px);
+  padding:35px;
+  width:90%;
+  max-width:380px;
+  border-radius:25px;
   text-align:center;
-  padding:30px;
-  background:rgba(0,0,0,.35);
-  border-radius:20px;
-  backdrop-filter:blur(10px);
-  box-shadow:0 0 40px rgba(255,77,109,.5);
+  box-shadow:0 0 40px #ff4d6d;
 }
 
-.card h1{
-  font-size:2.2rem;
+/* GLOW TEXT */
+h1{
+  font-size:2rem;
   margin-bottom:10px;
   animation:glow 2s infinite alternate;
 }
-
 @keyframes glow{
   from{text-shadow:0 0 10px #ff4d6d}
   to{text-shadow:0 0 30px #ff99ac}
 }
 
-#text{
-  font-size:1.1rem;
+#question{
   min-height:80px;
+  font-size:1.1rem;
   margin:15px 0;
 }
 
-/* Buttons */
-.btns button{
+/* BUTTONS */
+button{
   padding:12px 22px;
-  margin:8px;
   border:none;
   border-radius:30px;
+  margin:8px;
   font-size:16px;
   cursor:pointer;
   transition:.3s;
 }
-
 .yes{background:#ff4d6d;color:#fff}
 .no{background:#444;color:#fff}
 
 .yes:hover{transform:scale(1.1)}
 .no:hover{transform:translateX(20px)}
 
-/* Fireworks */
-.firework{
+/* CAT STICKERS */
+.cat{
+  position:fixed;
+  font-size:40px;
+}
+.cat.left{left:10px;bottom:10px}
+.cat.right{right:10px;top:10px}
+
+/* FIREWORK */
+.fire{
   position:absolute;
   width:6px;
   height:6px;
@@ -85,92 +108,119 @@ body{
   animation:boom 1s ease-out forwards;
 }
 @keyframes boom{
-  from{transform:scale(0)}
-  to{transform:scale(25);opacity:0}
+  to{transform:scale(30);opacity:0}
+}
+
+/* KISS */
+.kiss{
+  position:absolute;
+  font-size:30px;
+  animation:kissFly 1.5s linear forwards;
+}
+@keyframes kissFly{
+  to{transform:translateY(-200px) scale(2);opacity:0}
 }
 </style>
 </head>
 
 <body>
 
+<div class="toggle" onclick="toggleMode()">🌙</div>
+
+<div class="cat left">🐱</div>
+<div class="cat right">🐱</div>
+
 <audio id="music" src="aud.mp3"></audio>
 
 <div class="card">
   <h1>Hey You 💕</h1>
-  <div id="text"></div>
-
-  <div class="btns">
-    <button class="yes" onclick="yesClick()">YES 😍</button>
-    <button class="no" onclick="noClick()">NO 🙈</button>
-  </div>
+  <div id="question"></div>
+  <button class="yes" onclick="yes()">YES 😍</button>
+  <button class="no" onclick="no()">NO 🙈</button>
 </div>
 
 <script>
-/* Love lines */
-const lines=[
-  "Happy New Year my favorite person 🎆",
-  "Tumhari smile meri weakness hai ❤️",
-  "Tum ho to duniya perfect lagti hai ✨",
-  "Dil serious hai… feelings real hain 😌",
-  "Aur sawaal simple hai…",
+const questions=[
+  "Tum mujhe pasand karti ho? 😜",
+  "Meri baaton pe smile aati hai? 😊",
+  "Main special hoon tumhare liye? ❤️",
+  "Kabhi future imagine kiya mere saath? 🌈",
+  "Last question…",
   "Kya tum meri banogi? 💍❤️"
 ];
 
 let i=0;
-const textBox=document.getElementById("text");
+const q=document.getElementById("question");
 const music=document.getElementById("music");
 
-/* Typewriter */
-function typeLine(){
-  if(i<lines.length){
-    let j=0;
-    textBox.innerHTML="";
-    let interval=setInterval(()=>{
-      textBox.innerHTML+=lines[i][j];
-      j++;
-      if(j>=lines[i].length){
-        clearInterval(interval);
-        i++;
-        setTimeout(typeLine,1200);
-      }
-    },50);
+/* TYPEWRITER */
+function type(text){
+  q.innerHTML="";
+  let j=0;
+  let t=setInterval(()=>{
+    q.innerHTML+=text[j];
+    j++;
+    if(j>=text.length) clearInterval(t);
+  },40);
+}
+type(questions[i]);
+
+function yes(){
+  music.play();
+  kiss();
+  i++;
+  if(i<questions.length){
+    type(questions[i]);
+    if(i===questions.length-1) fireworks();
   }
 }
-typeLine();
 
-/* Hearts background */
+function no(){
+  q.innerHTML="Arey NO option kaam nahi karta 😜❤️";
+}
+
+/* MODE */
+function toggleMode(){
+  document.body.classList.toggle("light");
+}
+
+/* FLOATING HEARTS */
 setInterval(()=>{
-  const h=document.createElement("div");
+  let h=document.createElement("div");
   h.className="heart";
-  h.style.left=Math.random()*100+"vw";
   h.innerHTML="💖";
+  h.style.left=Math.random()*100+"vw";
   document.body.appendChild(h);
-  setTimeout(()=>h.remove(),8000);
+  setTimeout(()=>h.remove(),7000);
 },300);
 
-/* Button actions */
-function yesClick(){
-  music.play();
-  fireworks();
-  textBox.innerHTML="Yayyy! You made my heart smile 💋💞";
-}
-
-function noClick(){
-  textBox.innerHTML="Arey soch lo na 😜❤️";
-}
-
-/* Fireworks */
+/* FIREWORKS */
 function fireworks(){
-  for(let i=0;i<15;i++){
-    const f=document.createElement("div");
-    f.className="firework";
-    f.style.left=50+Math.random()*20-10+"vw";
-    f.style.top=40+Math.random()*20-10+"vh";
+  for(let k=0;k<20;k++){
+    let f=document.createElement("div");
+    f.className="fire";
+    f.style.left=50+Math.random()*30-15+"vw";
+    f.style.top=40+Math.random()*30-15+"vh";
     f.style.background=`hsl(${Math.random()*360},100%,60%)`;
     document.body.appendChild(f);
     setTimeout(()=>f.remove(),1000);
   }
 }
+
+/* KISS */
+function kiss(){
+  let k=document.createElement("div");
+  k.className="kiss";
+  k.innerHTML="💋";
+  k.style.left="50%";
+  k.style.top="60%";
+  document.body.appendChild(k);
+  setTimeout(()=>k.remove(),1500);
+}
+</script>
+
+</body>
+</html>}
 </script>
 
 </body>
