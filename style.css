@@ -1,0 +1,12 @@
+#quiz {
+  margin-top: 20px;
+}
+
+#quiz button {
+  margin: 10px;
+  padding: 10px 18px;
+}
+
+#noBtn {
+  position: relative;
+}
